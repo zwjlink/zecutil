@@ -3,7 +3,6 @@ package zecutil
 import (
 	"crypto/sha256"
 	"errors"
-
 	"github.com/btcsuite/btcd/chaincfg"
 	"github.com/btcsuite/btcutil"
 	"github.com/btcsuite/btcutil/base58"
@@ -187,4 +186,18 @@ func addrChecksum(input []byte) (cksum [4]byte) {
 	copy(cksum[:], h2[:4])
 
 	return
+}
+
+// Encode pubHash to t3 zec address
+func EncodeScript(pkHash []byte, net *chaincfg.Params) (_ string, err error) {
+	if _, ok := NetList[net.Name]; !ok {
+		return "", errors.New("unknown network parameters")
+	}
+
+	var addrPubKey *btcutil.AddressPubKey
+	if addrPubKey, err = btcutil.NewAddressPubKey(pkHash, net); err != nil {
+		return "", err
+	}
+
+	return EncodeHash(btcutil.Hash160(addrPubKey.ScriptAddress())[:ripemd160.Size], NetList[net.Name].ScriptHashPrefixes)
 }
