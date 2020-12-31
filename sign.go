@@ -32,9 +32,9 @@ const (
 
 const (
 	versionOverwinterGroupID uint32 = 0x3C48270
-	//versionSaplingGroupID           = 0x892f2085
+	versionSaplingGroupID           = 0x892f2085
 	//https://github.com/zcash/zcash/blob/dea50714f91087556df3285195c37e77f8f558cc/src/consensus/upgrades.cpp
-	versionSaplingGroupID = 0xe9ff75a6
+	//versionSaplingGroupID = 0xe9ff75a6
 )
 
 // https://github.com/zcash/zcash/blob/89f5ee5dec3fdfd70202baeaf74f09fa32bfb1a8/src/chainparams.cpp#L99
