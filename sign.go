@@ -32,7 +32,9 @@ const (
 
 const (
 	versionOverwinterGroupID uint32 = 0x3C48270
-	versionSaplingGroupID           = 0x892f2085
+	//versionSaplingGroupID           = 0x892f2085
+	//https://github.com/zcash/zcash/blob/dea50714f91087556df3285195c37e77f8f558cc/src/consensus/upgrades.cpp
+	versionSaplingGroupID = 0xe9ff75a6
 )
 
 // https://github.com/zcash/zcash/blob/89f5ee5dec3fdfd70202baeaf74f09fa32bfb1a8/src/chainparams.cpp#L99
@@ -42,7 +44,6 @@ const (
 var upgradeParams = []upgradeParam{
 	{0, []byte{0x00, 0x00, 0x00, 0x00}},
 	{207500, []byte{0x19, 0x1B, 0xA8, 0x5B}},
-	{280000, []byte{0xBB, 0x09, 0xB8, 0x76}},
 }
 
 // RawTxInSignature returns the serialized ECDSA signature for the input idx of
@@ -324,7 +325,6 @@ func sign(
 	if err != nil {
 		return nil, txscript.NonStandardTy, nil, 0, err
 	}
-
 	switch class {
 	case txscript.PubKeyHashTy:
 		// look up key for address
@@ -344,7 +344,6 @@ func sign(
 		if err != nil {
 			return nil, class, nil, 0, err
 		}
-
 		return script, class, addresses, nrequired, nil
 	case txscript.MultiSigTy:
 		script, _ := signMultiSig(tx, idx, subScript, hashType, addresses, nrequired, kdb, amt)

@@ -201,3 +201,19 @@ func EncodeScript(pkHash []byte, net *chaincfg.Params) (_ string, err error) {
 
 	return EncodeHash(btcutil.Hash160(addrPubKey.ScriptAddress())[:ripemd160.Size], NetList[net.Name].ScriptHashPrefixes)
 }
+
+type AddressScriptHash struct {
+	hash  [ripemd160.Size]byte
+	netID byte
+}
+
+func newAddressScriptHashFromHash(scriptHash []byte, netID byte) (*AddressScriptHash, error) {
+	// Check for a valid script hash length.
+	if len(scriptHash) != ripemd160.Size {
+		return nil, errors.New("scriptHash must be 20 bytes")
+	}
+
+	addr := &AddressScriptHash{netID: netID}
+	copy(addr.hash[:], scriptHash)
+	return addr, nil
+}
