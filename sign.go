@@ -40,10 +40,15 @@ const (
 // https://github.com/zcash/zcash/blob/89f5ee5dec3fdfd70202baeaf74f09fa32bfb1a8/src/chainparams.cpp#L99
 // https://github.com/zcash/zcash/blob/master/src/consensus/upgrades.cpp#L11
 // activation levels are used for testnet because mainnet is already updated
+//https://github.com/zcash/zcash/blob/949fdca3a60f66433f7ffc6c8f2ecad3a09b5e00/src/chainparams.cpp#L127
 // TODO: need implement own complete chain params and use them
 var upgradeParams = []upgradeParam{
 	{0, []byte{0x00, 0x00, 0x00, 0x00}},
 	{207500, []byte{0x19, 0x1B, 0xA8, 0x5B}},
+	{280000, []byte{0xBB, 0x09, 0xB8, 0x76}},
+	{653600, []byte{0x60, 0x0E, 0xB4, 0x2B}},
+	{903000, []byte{0x0B, 0x23, 0xB9, 0xF5}},
+	{1046400, []byte{0xA6, 0x75, 0xFF, 0xE9}},
 }
 
 // RawTxInSignature returns the serialized ECDSA signature for the input idx of
@@ -325,6 +330,7 @@ func sign(
 	if err != nil {
 		return nil, txscript.NonStandardTy, nil, 0, err
 	}
+
 	switch class {
 	case txscript.PubKeyHashTy:
 		// look up key for address
@@ -344,6 +350,7 @@ func sign(
 		if err != nil {
 			return nil, class, nil, 0, err
 		}
+
 		return script, class, addresses, nrequired, nil
 	case txscript.MultiSigTy:
 		script, _ := signMultiSig(tx, idx, subScript, hashType, addresses, nrequired, kdb, amt)
